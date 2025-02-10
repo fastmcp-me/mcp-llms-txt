@@ -22,7 +22,6 @@ async def list_resources() -> list[types.Resource]:
     resources = []
 
     for line in response.text.splitlines():
-        print(line)
         
         match = re.match(pattern, line)
         if not match:
@@ -43,7 +42,13 @@ async def list_resources() -> list[types.Resource]:
 
 @server.read_resource()
 async def handle_read_resource(uri: AnyUrl) -> str:
-    return "Hello, world!"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(str(uri))
+
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch {uri}")
+    
+    return response.text
 
 if __name__ == "__main__":
     import asyncio
