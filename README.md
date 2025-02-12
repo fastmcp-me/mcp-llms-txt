@@ -1,9 +1,20 @@
 # mcp-llms-txt
 
+[![smithery badge](https://smithery.ai/badge/@SecretiveShell/MCP-llms-txt)](https://smithery.ai/server/@SecretiveShell/MCP-llms-txt)
+
 MCP server for [Awesome-llms-txt](https://github.com/SecretiveShell/Awesome-llms-txt). Add documentation directly into your conversation via mcp resources.
 
 ## Installation
 
+### Installing via Smithery
+
+To install MCP Server for Awesome-llms-txt for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@SecretiveShell/MCP-llms-txt):
+
+```bash
+npx -y @smithery/cli install @SecretiveShell/MCP-llms-txt --client claude
+```
+
+### Manual Installation
 Setup your claude config like this:
 
 ```json
