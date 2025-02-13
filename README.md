@@ -4,6 +4,8 @@
 
 MCP server for [Awesome-llms-txt](https://github.com/SecretiveShell/Awesome-llms-txt). Add documentation directly into your conversation via mcp resources.
 
+<a href="https://glama.ai/mcp/servers/kqwhhpe8l7"><img width="380" height="200" src="https://glama.ai/mcp/servers/kqwhhpe8l7/badge" alt="MCP-llms-txt MCP server" /></a>
+
 ## Installation
 
 ### Installing via Smithery
