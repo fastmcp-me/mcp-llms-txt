@@ -8,6 +8,8 @@ MCP server for [Awesome-llms-txt](https://github.com/SecretiveShell/Awesome-llms
 
 ## Installation
 
+View a setup guide + example usage on [pulsemcp.com](https://www.pulsemcp.com/use-cases/utilize-llm-txt-files/secretiveshell-claude-llmstxt)
+
 ### Installing via Smithery
 
 To install MCP Server for Awesome-llms-txt for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@SecretiveShell/MCP-llms-txt):
