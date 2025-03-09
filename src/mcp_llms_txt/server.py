@@ -1,5 +1,8 @@
+import json
 import os
 import re
+import sys
+from urllib.parse import urlparse
 import httpx
 from mcp.server.lowlevel import Server
 import mcp.types as types
@@ -7,7 +10,7 @@ from pydantic import AnyUrl
 
 SERVER_NAME = "mcp-llms-txt"
 
-AWESOME_LLMS_TXT = "https://raw.githubusercontent.com/SecretiveShell/Awesome-llms-txt/refs/heads/master/README.md"
+AWESOME_LLMS_TXT = "https://raw.githubusercontent.com/SecretiveShell/Awesome-llms-txt/refs/heads/master/json/urls.json"
 AWESOME_LLMS_TXT = os.getenv("AWESOME_LLMS_TXT_URL", AWESOME_LLMS_TXT)
 
 LINE_PATTERN = pattern = re.compile(r"- \[(.*?)\]\((https?://.*?)\)")
@@ -19,25 +22,38 @@ async def list_resources() -> list[types.Resource]:
     async with httpx.AsyncClient() as client:
         response = await client.get(AWESOME_LLMS_TXT)
     
+    if response.status_code != 200:
+        raise Exception(f"Failed to fetch {AWESOME_LLMS_TXT}")
+
     resources = []
 
-    for line in response.text.splitlines():
+    for line in json.loads(response.text):
+        assert isinstance(line, str)
         
-        match = re.match(pattern, line)
-        if not match:
+        if not line:
             continue
+        
+        url = urlparse(line)
 
-        description = f"llms.txt file for {match.group(1)}"
+        type = url.path.split("/")[-1]
+        description = f"{type} file for {url.netloc}"
+
+        if "full" in type:
+            name = f"{url.netloc} (full)"
+        else:
+            name = f"{url.netloc}"
 
         resource = types.Resource(
-            uri=AnyUrl(match.group(2)),
-            name=match.group(1),
+            uri=AnyUrl(line),
+            name=name,
             description=description,
             mimeType="text/markdown",
         )
         resources.append(resource)
     
-    return resources
+    sorted_resources = sorted(resources, key=lambda x: x.name)
+
+    return sorted_resources
 
 
 @server.read_resource()
